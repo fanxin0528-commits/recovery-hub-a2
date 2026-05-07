@@ -13,7 +13,7 @@ export function Panel({ title, icon, children, className = '', edgeAction }: Pan
   return (
     <section className={`pixel-panel ${className}`}>
       <div className="panel-strip">
-        <PixelIcon name={icon} size={22} />
+        <PixelIcon name={icon} size={24} />
         <span>{title}</span>
       </div>
       <div className="panel-body">{children}</div>
@@ -35,7 +35,7 @@ export function PixelButton({ icon, children, onClick, to, variant = 'primary', 
   const className = `pixel-button ${variant === 'secondary' ? 'secondary' : ''}`;
   const content = (
     <>
-      <PixelIcon name={icon} size={20} light={variant === 'primary'} />
+      <PixelIcon name={icon} size={19} light={variant === 'primary'} />
       <span>{children}</span>
     </>
   );
@@ -56,7 +56,7 @@ export function PixelButton({ icon, children, onClick, to, variant = 'primary', 
 export function Tag({ icon, children }: { icon: PixelIconName; children: ReactNode }) {
   return (
     <span className="tag">
-      <PixelIcon name={icon} size={16} />
+      <PixelIcon name={icon} size={17} />
       <span>{children}</span>
     </span>
   );
@@ -74,7 +74,7 @@ export function Row({ label, value }: { label: ReactNode; value: ReactNode }) {
 export function ListItem({ icon, title, meta, href }: { icon: PixelIconName; title: ReactNode; meta?: ReactNode; href?: string }) {
   const inner = (
     <>
-      <PixelIcon name={icon} size={22} />
+      <PixelIcon name={icon} size={24} />
       <span>
         <strong>{title}</strong>
         {meta ? <small>{meta}</small> : null}
