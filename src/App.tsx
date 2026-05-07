@@ -102,7 +102,7 @@ function AppShell({ children, path, navigate }: { children: React.ReactNode; pat
       </header>
       <main>{children}</main>
       <nav className="mobile-bottom-nav" aria-label="Mobile primary">
-        {navRoutes.filter((route) => route.path !== '/stage').map((route) => (
+        {navRoutes.map((route) => (
           <a
             key={route.path}
             className={`mobile-nav-button ${activePath === route.path ? 'active' : ''}`}
