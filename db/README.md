@@ -1,31 +1,24 @@
-# Recovery Hub SQLite Database Design
+# Recovery Hub SQLite Database
 
 ## 目录说明
 
-本目录是 Recovery Hub A2 的数据库设计包：
+本目录是 Recovery Hub A2 原型的 SQLite 数据库部分：
 
 - `../docs/ddd.md`：按 view 拆分的 DDD、JSON 查询结构、任务看板。
 - `../docs/erd.md`：ERD 图和表结构清单。
 - `schema.sql`：SQLite 表结构。
 - `seed.sql`：测试数据。
-
-正式移动进 A2 原型仓库时，按课程要求使用新分支：
-
-```sh
-git checkout -b feature/week09-database-design
-```
-
-当前 `/Users/salmon/Desktop/deco2017` 不是 Git 仓库，所以这里没有实际创建分支。
+- `recovery_hub.db`：本地 demo 数据库，可由脚本重新生成。
 
 ## 创建数据库
 
-在 `recovery-hub-database-design` 目录执行：
+在项目根目录执行：
 
 ```sh
-rm -f recovery_hub.db
-sqlite3 recovery_hub.db < db/schema.sql
-sqlite3 recovery_hub.db < db/seed.sql
+npm run db:reset
 ```
+
+这个脚本会删除旧的 `db/recovery_hub.db`，再按 `schema.sql` 和 `seed.sql` 重新创建数据库。
 
 ## 核心验证查询
 
@@ -131,6 +124,12 @@ LIMIT 1;
 - `recovery_logs` 与 `log_tags` 是多对多，通过 `recovery_log_tags` 拆表。
 
 ## Changelog
+
+### 2026-05-09
+
+- A2 原型改为课程风格实现：Mojo.js route handlers + `better-sqlite3` + server-rendered templates。
+- `schema.sql` 和 `seed.sql` 的表结构不变。
+- `npm run db:reset` 改为使用 Node 脚本和 `better-sqlite3` 重建 demo database。
 
 ### 2026-05-06
 

@@ -1,0 +1,102 @@
+% view.layout = 'default';
+<section class="page-heading">
+  <span class="pixel-icon large"><%= type === 'thread' ? '?' : '▤' %></span>
+  <div>
+    <h1>Log / Discussion Detail</h1>
+    <p>Context tags, replies, save/report actions, and similar-stage prompts.</p>
+  </div>
+</section>
+
+% if (!item) {
+  <article class="panel">
+    <header><span class="pixel-icon">!</span><strong>Not found</strong></header>
+    <div class="panel-body">
+      <p>This item does not exist in the demo database.</p>
+      <a class="button primary" href="/explore">Back to Explore</a>
+    </div>
+  </article>
+% } else {
+  <section class="screen-grid detail-grid">
+    <article class="panel detail-main">
+      <header><span class="pixel-icon"><%= type === 'thread' ? '?' : '▤' %></span><strong><%= type === 'thread' ? 'Discussion' : 'Recovery log' %></strong></header>
+      <div class="panel-body">
+        <h2><%= item.title %></h2>
+        <p class="meta-line">By <%= item.author %> · <%= item.body_area %> · <%= item.recovery_stage %> · <%= item.activity_goal ?? 'general goal' %></p>
+        % if (type === 'thread') {
+          <p><%= item.question_body %></p>
+        % } else {
+          <p><strong>Movement tried:</strong> <%= item.movement_tried %></p>
+          <p><strong>Symptoms and limits:</strong> <%= item.symptoms_and_limits %></p>
+          <p><strong>What helped:</strong> <%= item.what_helped %></p>
+          <p><strong>Community question:</strong> <%= item.question_for_community %></p>
+          <div class="tag-row">
+            <span class="tag"><span>▥</span>pain <%= item.pain_before %> → <%= item.pain_after %></span>
+            <span class="tag"><span>✓</span><%= item.confidence_level %> confidence</span>
+            % if (item.tags) {
+              <span class="tag"><span>▣</span><%= item.tags %></span>
+            % }
+          </div>
+        % }
+      </div>
+    </article>
+
+    <article class="panel">
+      <header><span class="pixel-icon">◇</span><strong>Actions</strong></header>
+      <div class="panel-body action-stack">
+        <form method="post" action="/saved-items">
+          <input type="hidden" name="type" value="<%= type %>">
+          <input type="hidden" name="id" value="<%= type === 'thread' ? item.discussion_thread_id : item.recovery_log_id %>">
+          <button class="button primary" type="submit"><span>▣</span>Save</button>
+        </form>
+        <form method="post" action="/content-reports">
+          <input type="hidden" name="type" value="<%= type %>">
+          <input type="hidden" name="id" value="<%= type === 'thread' ? item.discussion_thread_id : item.recovery_log_id %>">
+          <input type="hidden" name="details" value="Flagged from detail page.">
+          <button class="button secondary" type="submit"><span>!</span>Report</button>
+        </form>
+      </div>
+    </article>
+
+    % if (type === 'thread') {
+      <article class="panel detail-main">
+        <header><span class="pixel-icon">↩</span><strong>Replies</strong></header>
+        <div class="panel-body compact-list">
+          % for (const reply of replies) {
+            <div class="list-item">
+              <span class="pixel-icon small">↩</span>
+              <span><strong><%= reply.author %></strong><small><%= reply.reply_body %></small></span>
+            </div>
+          % }
+        </div>
+      </article>
+
+      <article class="panel">
+        <header><span class="pixel-icon">✎</span><strong>Add reply</strong></header>
+        <form class="panel-body form-stack" method="post" action="/discussion-replies">
+          <input type="hidden" name="discussion_thread_id" value="<%= item.discussion_thread_id %>">
+          <textarea name="reply_body" rows="5" placeholder="Share a short experience, not medical advice."></textarea>
+          <button class="button primary" type="submit"><span>↩</span>Post reply</button>
+        </form>
+      </article>
+    % }
+
+    <article class="panel">
+      <header><span class="pixel-icon">⌕</span><strong>Similar stage prompt</strong></header>
+      <div class="panel-body compact-list">
+        % for (const match of similar.slice(0, 3)) {
+          % if (type === 'thread') {
+            <a class="list-item" href="/detail/log/<%= match.recovery_log_id %>">
+              <span class="pixel-icon small">▤</span>
+              <span><strong><%= match.title %></strong><small><%= match.body_area %>, <%= match.recovery_stage %></small></span>
+            </a>
+          % } else {
+            <a class="list-item" href="/detail/thread/<%= match.discussion_thread_id %>">
+              <span class="pixel-icon small">?</span>
+              <span><strong><%= match.title %></strong><small><%= match.status %> discussion</small></span>
+            </a>
+          % }
+        % }
+      </div>
+    </article>
+  </section>
+% }

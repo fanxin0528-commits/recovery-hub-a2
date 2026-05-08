@@ -1,0 +1,82 @@
+% view.layout = 'default';
+<section class="page-heading">
+  <span class="pixel-icon large">⚑</span>
+  <div>
+    <h1>Stage Dashboard</h1>
+    <p>Stage guidance and matched examples for <%= context?.recovery_stage ?? 'current stage' %>.</p>
+  </div>
+</section>
+
+<section class="screen-grid stage-grid">
+  <article class="panel">
+    <header><span class="pixel-icon">⚑</span><strong><%= stage?.name ?? 'Current stage' %></strong></header>
+    <div class="panel-body">
+      <h2>Test and observe response</h2>
+      <p><%= stage?.description ?? '' %></p>
+      <p><%= stage?.guidance ?? '' %></p>
+      <div class="tag-row">
+        <span class="tag"><span>▤</span><%= stage?.intensity_level ?? 'low' %> intensity</span>
+        <span class="tag"><span>◎</span><%= context?.activity_goal ?? 'Goal' %></span>
+      </div>
+    </div>
+  </article>
+
+  <article class="panel with-action">
+    <header><span class="pixel-icon">?</span><strong>Open questions</strong></header>
+    <div class="panel-body compact-list">
+      % for (const thread of threads.slice(0, 2)) {
+        <a class="list-item" href="/detail/thread/<%= thread.discussion_thread_id %>">
+          <span class="pixel-icon small">?</span>
+          <span><strong><%= thread.title %></strong><small><%= thread.status %></small></span>
+        </a>
+      % }
+    </div>
+    <a class="edge-action" href="/detail/thread/2"><span>?</span>Open question</a>
+  </article>
+
+  <article class="panel">
+    <header><span class="pixel-icon">▥</span><strong>Stage state</strong></header>
+    <div class="panel-body">
+      <dl class="two-column-list">
+        <dt>Stage</dt>
+        <dd><%= context?.recovery_stage ?? '-' %></dd>
+        <dt>Intensity</dt>
+        <dd><%= stage?.intensity_level ?? '-' %></dd>
+        <dt>Goal</dt>
+        <dd><%= context?.activity_goal ?? '-' %></dd>
+      </dl>
+    </div>
+  </article>
+
+  <article class="panel list-panel">
+    <header><span class="pixel-icon">☷</span><strong>Similar-stage logs</strong></header>
+    <div class="panel-body compact-list">
+      % for (const log of logs.slice(0, 3)) {
+        <a class="list-item" href="/detail/log/<%= log.recovery_log_id %>">
+          <span class="pixel-icon small">▤</span>
+          <span><strong><%= log.title %></strong><small>pain <%= log.pain_before %> → <%= log.pain_after %>, <%= log.author %></small></span>
+        </a>
+      % }
+    </div>
+  </article>
+
+  <article class="panel">
+    <header><span class="pixel-icon">◎</span><strong>Movement ideas</strong></header>
+    <div class="panel-body compact-list">
+      % for (const idea of movementIdeas) {
+        <div class="list-item">
+          <span class="pixel-icon small">✓</span>
+          <span><strong><%= idea %></strong><small>Use as community inspiration, not medical advice.</small></span>
+        </div>
+      % }
+    </div>
+  </article>
+
+  <article class="panel with-action">
+    <header><span class="pixel-icon">⌕</span><strong>Need more matches?</strong></header>
+    <div class="panel-body">
+      <p>Use Explore filters for similar people, logs, discussions, and tags.</p>
+    </div>
+    <a class="edge-action" href="/explore?stageId=<%= context?.recovery_stage_id ?? 2 %>&bodyAreaId=<%= context?.body_area_id ?? 1 %>&goalId=<%= context?.activity_goal_id ?? 1 %>"><span>⌕</span>Open Explore</a>
+  </article>
+</section>

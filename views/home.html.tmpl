@@ -1,0 +1,113 @@
+% view.layout = 'default';
+<section class="page-heading">
+  <span class="pixel-icon large">⌂</span>
+  <div>
+    <h1>Hub Home</h1>
+    <p>A calm entry view for current state, next action, and recent relevance.</p>
+  </div>
+  <aside class="note-card">
+    <strong>High fidelity v1</strong>
+    <span>Discovery moved out of Home.</span>
+  </aside>
+</section>
+
+<section class="screen-grid home-grid">
+  <article class="panel">
+    <header><span class="pixel-icon">▣</span><strong>Current context</strong></header>
+    <div class="panel-body">
+      <h2><%= context?.body_area ?? 'Knee' %> - <%= context?.recovery_stage ?? 'Controlled Return' %></h2>
+      <p>Goal: <%= context?.activity_goal ?? 'Return to running' %>. Latest pain comes from the most recent structured log.</p>
+      <dl class="two-column-list">
+        <dt>Latest pain after</dt>
+        <dd><%= latestPain?.pain_after ?? '-' %> / 10</dd>
+        <dt>Confidence</dt>
+        <dd><%= latestPain?.confidence_level ?? '-' %></dd>
+      </dl>
+      <div class="tag-row">
+        <span class="tag"><span>▣</span><%= context?.body_area ?? 'Knee' %></span>
+        <span class="tag"><span>⚑</span><%= context?.recovery_stage ?? 'Stage' %></span>
+        <span class="tag"><span>◎</span><%= context?.activity_goal ?? 'Goal' %></span>
+      </div>
+    </div>
+  </article>
+
+  <article class="panel with-action">
+    <header><span class="pixel-icon">✎</span><strong>Continue logging</strong></header>
+    <div class="panel-body">
+      <p>A short log keeps recovery state current without editing account fields.</p>
+    </div>
+    <a class="edge-action" href="/log/new"><span>▤</span>Add recovery log</a>
+  </article>
+
+  <article class="panel">
+    <header><span class="pixel-icon">▥</span><strong>Latest pain state</strong></header>
+    <div class="panel-body">
+      <table class="mini-table">
+        <tr><th>Source</th><td>Latest log</td></tr>
+        <tr><th>Pain before</th><td><%= latestPain?.pain_before ?? '-' %> / 10</td></tr>
+        <tr><th>Pain after</th><td><%= latestPain?.pain_after ?? '-' %> / 10</td></tr>
+        <tr><th>Updated</th><td><%= latestPain?.created_at ?? '-' %></td></tr>
+      </table>
+    </div>
+  </article>
+
+  <article class="panel list-panel">
+    <header><span class="pixel-icon">☷</span><strong>Recently relevant</strong></header>
+    <div class="panel-body compact-list">
+      % for (const log of recommendedLogs.slice(0, 2)) {
+        <a class="list-item" href="/detail/log/<%= log.recovery_log_id %>">
+          <span class="pixel-icon small">◎</span>
+          <span><strong><%= log.title %></strong><small><%= log.body_area %>, <%= log.recovery_stage %>, <%= log.activity_goal %></small></span>
+        </a>
+      % }
+      % for (const thread of recommendedThreads.slice(0, 1)) {
+        <a class="list-item" href="/detail/thread/<%= thread.discussion_thread_id %>">
+          <span class="pixel-icon small">?</span>
+          <span><strong><%= thread.title %></strong><small><%= thread.status %> discussion</small></span>
+        </a>
+      % }
+    </div>
+  </article>
+
+  <article class="panel with-action">
+    <header><span class="pixel-icon">▤</span><strong>Review stage guidance</strong></header>
+    <div class="panel-body">
+      <p><%= context?.stage_guidance ?? 'Controlled Return focuses on low-load testing and symptom response.' %></p>
+    </div>
+    <a class="edge-action" href="/stage"><span>▤</span>Open stage</a>
+  </article>
+
+  <article class="panel with-action">
+    <header><span class="pixel-icon">♙</span><strong>Account summary</strong></header>
+    <div class="panel-body media-panel">
+      <p>Account shows the same read-only pain state and preferences.</p>
+      <span class="spot-icon">♙</span>
+    </div>
+    <a class="edge-action secondary" href="/account"><span>♙</span>View account</a>
+  </article>
+
+  <article class="panel with-action">
+    <header><span class="pixel-icon">▣</span><strong>Saved for later</strong></header>
+    <div class="panel-body">
+      <p><%= saved.length %> items saved from similar-stage recovery stories.</p>
+    </div>
+    <a class="edge-action secondary" href="/account"><span>▣</span>Open saved</a>
+  </article>
+
+  <article class="panel">
+    <header><span class="pixel-icon">◇</span><strong>What home does not do</strong></header>
+    <div class="panel-body">
+      <p>It does not ask users to browse similar people first. That belongs in Explore.</p>
+      <span class="tag"><span>⌂</span>Focused home</span>
+    </div>
+  </article>
+
+  <article class="panel with-action">
+    <header><span class="pixel-icon">⌕</span><strong>Need similar people?</strong></header>
+    <div class="panel-body media-panel">
+      <p>Use Explore filters for stage, body area, goal, and tags.</p>
+      <span class="spot-icon">⌕</span>
+    </div>
+    <a class="edge-action" href="/explore"><span>⌕</span>Open Explore</a>
+  </article>
+</section>

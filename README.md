@@ -1,21 +1,43 @@
 # Recovery Hub A2
 
-SQLite-backed web prototype for the DECO2017 A2 Recovery Hub concept. The app translates the Figma high-fidelity direction into a working React interface with an Express API and local SQLite database.
+Recovery Hub is a SQLite-backed web prototype for DECO2017 A2. This version is intentionally written in the same style as the course examples: Mojo.js routes, `better-sqlite3` queries, server-rendered templates, and normal HTML forms.
 
-## What This Prototype Shows
+The design still follows the Figma high fidelity direction, but the code is kept simple enough to read as a student assignment instead of a production React app.
 
-- A logged-in Recovery Hub session for `user_id = 1`.
-- Home as a calm recovery-state snapshot, not a generic discovery feed.
+## What The Prototype Shows
+
+- A fixed logged-in demo user: `user_id = 1`.
+- Home as a recovery-state snapshot and next-action page.
 - Explore as the place to find similar people, logs, and discussions.
-- Structured recovery logs as the source of changing pain state.
-- My Account / Context Summary showing pain state as read-only from the latest log.
+- Structured recovery logs as the source of latest pain state.
+- My Account showing pain state as read-only from the latest log.
+- No signup page and no guest session.
+
+## Course-Style Workflow
+
+The project follows the assignment chain:
+
+```text
+wireframe -> DDD -> ERD -> SQLite schema/seed -> Mojo routes -> rendered views
+```
+
+Main course patterns used:
+
+- `@mojojs/core` route handlers.
+- `ctx.render({ view, layout }, data)` for templates.
+- `better-sqlite3` prepared statements.
+- SQLite tables from `db/schema.sql`.
+- Seed data from `db/seed.sql`.
+- POST forms for context updates, new recovery logs, replies, saved items, and reports.
 
 ## Tech Stack
 
-- React + Vite + TypeScript
-- Express API
-- SQLite via Node `node:sqlite`
-- Figma-inspired pixel UI system using CSS and inline SVG icons
+- TypeScript
+- Mojo.js (`@mojojs/core`)
+- SQLite
+- `better-sqlite3`
+- HTML templates in `views/`
+- CSS in `public/app.css`
 
 ## Run Locally
 
@@ -25,37 +47,18 @@ npm run db:reset
 npm run dev
 ```
 
-The app runs as:
+The app runs at:
 
-- Frontend: `http://localhost:5173`
-- API: `http://localhost:3101`
-
-If another local service uses port `3101`, run the API manually with a different port:
-
-```sh
-PORT=3111 npm run server
+```text
+http://127.0.0.1:3000/
 ```
 
-Then update `vite.config.ts` proxy target for local development.
-
-## Database
-
-The database package is included in this repository:
-
-- `db/schema.sql`
-- `db/seed.sql`
-- `db/recovery_hub.db`
-- `db/README.md`
-- `docs/ddd.md`
-- `docs/erd.md`
-
-Rebuild the demo database at any time:
+Useful checks:
 
 ```sh
-npm run db:reset
+npm run lint
+npm run build
 ```
-
-Important product rule: pain level is not edited in My Account or Recovery Context. It is derived from the newest `recovery_logs` row.
 
 ## Main Routes
 
@@ -67,36 +70,19 @@ Important product rule: pain level is not edited in My Account or Recovery Conte
 - `/explore` - Explore Community
 - `/account` - My Account / Context Summary
 
-## API Endpoints
+## Database Files
 
-- `GET /api/home`
-- `GET /api/context`
-- `PUT /api/context`
-- `GET /api/stage-dashboard`
-- `GET /api/explore?stageId=&bodyAreaId=&goalId=&tag=&q=`
-- `GET /api/detail/:type/:id`
-- `POST /api/logs`
-- `POST /api/discussion-replies`
-- `POST /api/saved-items`
-- `POST /api/content-reports`
+- `db/schema.sql`
+- `db/seed.sql`
+- `db/recovery_hub.db`
+- `db/README.md`
+- `docs/ddd.md`
+- `docs/erd.md`
+
+Important rule: pain level is not edited in My Account or Recovery Context. It is derived from the newest `recovery_logs` row.
 
 ## Sharing With Teammates
 
-This project is intended to live in a clean GitHub repository named `recovery-hub-a2`. GitHub Pages is not the primary deployment target because the prototype uses a local SQLite-backed Express API. Teammates should clone the repo and run it locally.
+The GitHub repository is the easiest place for teammates to access the project. They can clone the repo, run the commands above, and view the prototype locally.
 
-If the school provides a required repository later, add it as a second remote:
-
-```sh
-git remote add school <school-repo-url>
-git push school main
-```
-
-## Validation Commands
-
-```sh
-npm run db:reset
-npm run lint
-npm run build
-```
-
-The current implementation has been checked at desktop `1440x960` and mobile `390x844` viewports for text overflow, icon/text overlap, edge-action button overlap, and bottom navigation overlap.
+GitHub Pages is not the main target because this prototype needs a local SQLite database and Mojo.js server.

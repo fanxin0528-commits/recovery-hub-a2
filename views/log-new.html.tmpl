@@ -1,0 +1,112 @@
+% view.layout = 'default';
+<section class="page-heading">
+  <span class="pixel-icon large">▤</span>
+  <div>
+    <h1>Structured Recovery Log</h1>
+    <p>Pain before and pain after are the source of the latest pain state.</p>
+  </div>
+</section>
+
+<form class="screen-grid form-grid" method="post" action="/logs">
+  <article class="panel">
+    <header><span class="pixel-icon">▣</span><strong>Context tags</strong></header>
+    <div class="panel-body form-stack">
+      <label>Body area
+        <select name="body_area_id">
+          % for (const body of options.bodyAreas) {
+            <option value="<%= body.body_area_id %>" <%= Number(body.body_area_id) === Number(context?.body_area_id) ? 'selected' : '' %>><%= body.name %></option>
+          % }
+        </select>
+      </label>
+      <label>Stage
+        <select name="recovery_stage_id">
+          % for (const stage of options.recoveryStages) {
+            <option value="<%= stage.recovery_stage_id %>" <%= Number(stage.recovery_stage_id) === Number(context?.recovery_stage_id) ? 'selected' : '' %>><%= stage.name %></option>
+          % }
+        </select>
+      </label>
+      <label>Goal
+        <select name="activity_goal_id">
+          % for (const goal of options.activityGoals) {
+            <option value="<%= goal.activity_goal_id %>" <%= Number(goal.activity_goal_id) === Number(context?.activity_goal_id) ? 'selected' : '' %>><%= goal.name %></option>
+          % }
+        </select>
+      </label>
+      <label>Optional tag
+        <select name="tag_id">
+          <option value="">No tag</option>
+          % for (const tag of options.tags) {
+            <option value="<%= tag.log_tag_id %>"><%= tag.name %></option>
+          % }
+        </select>
+      </label>
+    </div>
+  </article>
+
+  <article class="panel">
+    <header><span class="pixel-icon">✎</span><strong>What happened</strong></header>
+    <div class="panel-body form-stack">
+      <label>Log title
+        <input name="title" value="Short movement check-in">
+      </label>
+      <label>Movement tried
+        <textarea name="movement_tried" rows="3">Ten minute easy walk with controlled pace.</textarea>
+      </label>
+      <label>Symptoms and limits
+        <textarea name="symptoms_and_limits" rows="3">Mild stiffness near the end, no swelling after rest.</textarea>
+      </label>
+    </div>
+  </article>
+
+  <article class="panel">
+    <header><span class="pixel-icon">▥</span><strong>Pain response</strong></header>
+    <div class="panel-body form-stack two-fields">
+      <label>Pain before
+        <input type="number" name="pain_before" min="0" max="10" value="2">
+      </label>
+      <label>Pain after
+        <input type="number" name="pain_after" min="0" max="10" value="3">
+      </label>
+      <label>Confidence
+        <select name="confidence_level">
+          <option value="low">low</option>
+          <option value="medium" selected>medium</option>
+          <option value="high">high</option>
+        </select>
+      </label>
+    </div>
+  </article>
+
+  <article class="panel">
+    <header><span class="pixel-icon">?</span><strong>Community sharing</strong></header>
+    <div class="panel-body form-stack">
+      <label>What helped?
+        <textarea name="what_helped" rows="3">Stopping early made it feel safer.</textarea>
+      </label>
+      <label>Question for community
+        <textarea name="question_for_community" rows="3">Is mild stiffness normal at this stage?</textarea>
+      </label>
+      <label>Visibility
+        <select name="visibility">
+          <option value="members" selected>members</option>
+          <option value="private">private</option>
+          <option value="public">public</option>
+        </select>
+      </label>
+      <label><input type="checkbox" name="allow_similar_stage_discovery" checked> Allow similar-stage discovery</label>
+      <label><input type="checkbox" name="ask_for_replies" checked> Ask for replies</label>
+    </div>
+  </article>
+
+  <article class="panel">
+    <header><span class="pixel-icon">◇</span><strong>After submit</strong></header>
+    <div class="panel-body">
+      <p>Home and Account will show the latest pain state from this new log.</p>
+    </div>
+  </article>
+
+  <div class="form-actions">
+    <button class="button primary" type="submit"><span>✓</span>Submit log</button>
+    <a class="button secondary" href="/"><span>⌂</span>Cancel</a>
+  </div>
+</form>

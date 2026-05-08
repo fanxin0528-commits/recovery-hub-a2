@@ -1,0 +1,92 @@
+% view.layout = 'default';
+<section class="page-heading">
+  <span class="pixel-icon large">♙</span>
+  <div>
+    <h1>My Account / Context Summary</h1>
+    <p>Recovery background, preferences, and read-only pain state from the latest log.</p>
+  </div>
+  <a class="button secondary" href="/context"><span>⚙</span>Edit context</a>
+</section>
+
+<section class="screen-grid account-grid">
+  <article class="panel">
+    <header><span class="pixel-icon">♙</span><strong>Account</strong></header>
+    <div class="panel-body">
+      <h2><%= context?.display_name ?? 'Fanxin' %></h2>
+      <p>Logged-in demo user. No guest session and no signup screen.</p>
+      <div class="tag-row">
+        <span class="tag"><span>✓</span>member</span>
+        <span class="tag"><span>◇</span>AA target</span>
+      </div>
+    </div>
+  </article>
+
+  <article class="panel">
+    <header><span class="pixel-icon">▣</span><strong>Context summary</strong></header>
+    <div class="panel-body">
+      <dl class="two-column-list">
+        <dt>Body area</dt>
+        <dd><%= context?.body_area ?? '-' %></dd>
+        <dt>Stage</dt>
+        <dd><%= context?.recovery_stage ?? '-' %></dd>
+        <dt>Goal</dt>
+        <dd><%= context?.activity_goal ?? '-' %></dd>
+        <dt>Experience</dt>
+        <dd><%= context?.experience_level ?? '-' %></dd>
+      </dl>
+    </div>
+  </article>
+
+  <article class="panel">
+    <header><span class="pixel-icon">▥</span><strong>Read-only pain state</strong></header>
+    <div class="panel-body">
+      <table class="mini-table">
+        <tr><th>Source</th><td>Latest recovery log</td></tr>
+        <tr><th>Pain before</th><td><%= latestPain?.pain_before ?? '-' %> / 10</td></tr>
+        <tr><th>Pain after</th><td><%= latestPain?.pain_after ?? '-' %> / 10</td></tr>
+        <tr><th>Confidence</th><td><%= latestPain?.confidence_level ?? '-' %></td></tr>
+      </table>
+      <p class="hint">There is no manual pain field here.</p>
+    </div>
+  </article>
+
+  <article class="panel">
+    <header><span class="pixel-icon">⚙</span><strong>Preferences</strong></header>
+    <div class="panel-body">
+      <dl class="two-column-list">
+        <dt>Recommendations</dt>
+        <dd><%= context?.personalize_recommendations ? 'On' : 'Off' %></dd>
+        <dt>Share stage tags</dt>
+        <dd><%= context?.share_stage_tags ? 'On' : 'Off' %></dd>
+        <dt>Optional tracking</dt>
+        <dd><%= context?.allow_optional_tracking ? 'On' : 'Off' %></dd>
+      </dl>
+    </div>
+  </article>
+
+  <article class="panel list-panel">
+    <header><span class="pixel-icon">▣</span><strong>Saved items</strong></header>
+    <div class="panel-body compact-list">
+      % for (const item of saved) {
+        <a class="list-item" href="/detail/<%= item.item_type %>/<%= item.item_id %>">
+          <span class="pixel-icon small">▣</span>
+          <span><strong><%= item.title %></strong><small><%= item.item_type %></small></span>
+        </a>
+      % }
+    </div>
+  </article>
+
+  <article class="panel">
+    <header><span class="pixel-icon">◇</span><strong>Data mapping</strong></header>
+    <div class="panel-body">
+      <dl class="two-column-list">
+        <dt>Context</dt>
+        <dd>user_recovery_contexts</dd>
+        <dt>Pain</dt>
+        <dd>recovery_logs</dd>
+        <dt>Options</dt>
+        <dd>stage / body / goal tables</dd>
+      </dl>
+    </div>
+  </article>
+</section>

@@ -1,0 +1,80 @@
+% view.layout = 'default';
+<section class="page-heading">
+  <span class="pixel-icon large">▣</span>
+  <div>
+    <h1>Recovery Context Setup</h1>
+    <p>Set relevance for recommendations. No signup and no manual pain input.</p>
+  </div>
+</section>
+
+% if (savedMessage) {
+  <p class="status-message">Context saved. Latest pain still comes from structured logs.</p>
+% }
+
+<form class="screen-grid form-grid" method="post" action="/context">
+  <article class="panel">
+    <header><span class="pixel-icon">▣</span><strong>Recovery context</strong></header>
+    <div class="panel-body form-stack">
+      <label>Body area
+        <select name="body_area_id">
+          % for (const body of options.bodyAreas) {
+            <option value="<%= body.body_area_id %>" <%= Number(body.body_area_id) === Number(context?.body_area_id) ? 'selected' : '' %>><%= body.name %></option>
+          % }
+        </select>
+      </label>
+      <label>Stage
+        <select name="recovery_stage_id">
+          % for (const stage of options.recoveryStages) {
+            <option value="<%= stage.recovery_stage_id %>" <%= Number(stage.recovery_stage_id) === Number(context?.recovery_stage_id) ? 'selected' : '' %>><%= stage.name %></option>
+          % }
+        </select>
+      </label>
+      <label>Goal
+        <select name="activity_goal_id">
+          % for (const goal of options.activityGoals) {
+            <option value="<%= goal.activity_goal_id %>" <%= Number(goal.activity_goal_id) === Number(context?.activity_goal_id) ? 'selected' : '' %>><%= goal.name %></option>
+          % }
+        </select>
+      </label>
+      <label>Experience level
+        <select name="experience_level">
+          % for (const level of ['beginner', 'recreational', 'competitive', 'unknown']) {
+            <option value="<%= level %>" <%= level === context?.experience_level ? 'selected' : '' %>><%= level %></option>
+          % }
+        </select>
+      </label>
+    </div>
+  </article>
+
+  <article class="panel">
+    <header><span class="pixel-icon">✎</span><strong>Limitations</strong></header>
+    <div class="panel-body form-stack">
+      <label>Current limitation
+        <textarea name="current_limitation" rows="5"><%= context?.current_limitation ?? '' %></textarea>
+      </label>
+      <p class="hint">This describes recovery context, not pain level. Pain state updates when logs are added.</p>
+    </div>
+  </article>
+
+  <article class="panel">
+    <header><span class="pixel-icon">⚙</span><strong>Preferences</strong></header>
+    <div class="panel-body form-stack check-list">
+      <label><input type="checkbox" name="personalize_recommendations" <%= context?.personalize_recommendations ? 'checked' : '' %>> Personalize recommendations</label>
+      <label><input type="checkbox" name="share_stage_tags" <%= context?.share_stage_tags ? 'checked' : '' %>> Share stage tags</label>
+      <label><input type="checkbox" name="allow_optional_tracking" <%= context?.allow_optional_tracking ? 'checked' : '' %>> Optional tracking consent</label>
+    </div>
+  </article>
+
+  <article class="panel">
+    <header><span class="pixel-icon">▥</span><strong>Removed field</strong></header>
+    <div class="panel-body media-panel">
+      <p><strong>No pain slider.</strong> Pain level appears from structured logs, not from account settings.</p>
+      <span class="spot-icon">▥</span>
+    </div>
+  </article>
+
+  <div class="form-actions">
+    <button class="button primary" type="submit"><span>✓</span>Save context</button>
+    <a class="button secondary" href="/account"><span>♙</span>View account summary</a>
+  </div>
+</form>

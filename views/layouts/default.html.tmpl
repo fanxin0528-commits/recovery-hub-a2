@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= title %> - Recovery Hub</title>
+    <link rel="icon" href="<%= ctx.urlForFile('favicon.svg') %>">
+    <link rel="stylesheet" href="<%= ctx.urlForFile('app.css') %>">
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/">
+        <span class="pixel-icon brand-icon">♥</span>
+        <span>Recovery Hub</span>
+      </a>
+      <nav class="desktop-nav" aria-label="Main">
+        <a class="nav-button <%= active === 'home' ? 'active' : '' %>" href="/"><span>⌂</span> Home</a>
+        <a class="nav-button <%= active === 'stage' ? 'active' : '' %>" href="/stage"><span>⚑</span> Stage</a>
+        <a class="nav-button <%= active === 'explore' ? 'active' : '' %>" href="/explore"><span>⌕</span> Explore</a>
+        <a class="nav-button <%= active === 'log' ? 'active' : '' %>" href="/log/new"><span>▤</span> Log</a>
+        <a class="nav-button <%= active === 'account' || active === 'context' ? 'active' : '' %>" href="/account"><span>♙</span> Account</a>
+      </nav>
+      <span class="nav-button fx-button"><span>⚙</span> FX</span>
+    </header>
+
+    <main class="page-shell">
+      <%= ctx.content.main %>
+    </main>
+
+    <nav class="mobile-nav" aria-label="Mobile main">
+      <a class="<%= active === 'home' ? 'active' : '' %>" href="/"><span>⌂</span><small>Home</small></a>
+      <a class="<%= active === 'stage' ? 'active' : '' %>" href="/stage"><span>⚑</span><small>Stage</small></a>
+      <a class="<%= active === 'explore' ? 'active' : '' %>" href="/explore"><span>⌕</span><small>Explore</small></a>
+      <a class="<%= active === 'log' ? 'active' : '' %>" href="/log/new"><span>▤</span><small>Log</small></a>
+      <a class="<%= active === 'account' || active === 'context' ? 'active' : '' %>" href="/account"><span>♙</span><small>Account</small></a>
+    </nav>
+  </body>
+</html>

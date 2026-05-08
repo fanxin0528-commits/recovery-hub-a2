@@ -1,0 +1,103 @@
+% view.layout = 'default';
+<section class="page-heading">
+  <span class="pixel-icon large">⌕</span>
+  <div>
+    <h1>Explore Community</h1>
+    <p>Find people, logs, and discussions by recovery stage, body area, goal, and tags.</p>
+  </div>
+</section>
+
+<form class="filter-bar" method="get" action="/explore">
+  <label>Search <input name="q" value="<%= filters.q %>" placeholder="stairs, walking, stiffness"></label>
+  <label>Stage
+    <select name="stageId">
+      <option value="">Any</option>
+      % for (const stage of options.recoveryStages) {
+        <option value="<%= stage.recovery_stage_id %>" <%= String(stage.recovery_stage_id) === filters.stageId ? 'selected' : '' %>><%= stage.name %></option>
+      % }
+    </select>
+  </label>
+  <label>Body
+    <select name="bodyAreaId">
+      <option value="">Any</option>
+      % for (const body of options.bodyAreas) {
+        <option value="<%= body.body_area_id %>" <%= String(body.body_area_id) === filters.bodyAreaId ? 'selected' : '' %>><%= body.name %></option>
+      % }
+    </select>
+  </label>
+  <label>Goal
+    <select name="goalId">
+      <option value="">Any</option>
+      % for (const goal of options.activityGoals) {
+        <option value="<%= goal.activity_goal_id %>" <%= String(goal.activity_goal_id) === filters.goalId ? 'selected' : '' %>><%= goal.name %></option>
+      % }
+    </select>
+  </label>
+  <label>Tag
+    <select name="tag">
+      <option value="">Any</option>
+      % for (const tag of options.tags) {
+        <option value="<%= tag.name %>" <%= tag.name === filters.tag ? 'selected' : '' %>><%= tag.name %></option>
+      % }
+    </select>
+  </label>
+  <button class="button primary" type="submit"><span>⌕</span>Apply filters</button>
+</form>
+
+<section class="screen-grid explore-grid">
+  <article class="panel">
+    <header><span class="pixel-icon">♙</span><strong>Similar people</strong></header>
+    <div class="panel-body compact-list">
+      % for (const person of similarPeople) {
+        <div class="list-item">
+          <span class="pixel-icon small">♙</span>
+          <span><strong><%= person.display_name %></strong><small><%= person.body_area %>, <%= person.recovery_stage %>, <%= person.activity_goal %></small></span>
+        </div>
+      % }
+      % if (similarPeople.length === 0) {
+        <p>No exact people match yet. Try fewer filters.</p>
+      % }
+    </div>
+  </article>
+
+  <article class="panel list-panel">
+    <header><span class="pixel-icon">▤</span><strong>Recovery logs</strong></header>
+    <div class="panel-body compact-list">
+      % for (const log of logs) {
+        <a class="list-item" href="/detail/log/<%= log.recovery_log_id %>">
+          <span class="pixel-icon small">◎</span>
+          <span><strong><%= log.title %></strong><small><%= log.body_area %>, <%= log.recovery_stage %> · pain <%= log.pain_before %> → <%= log.pain_after %></small></span>
+        </a>
+      % }
+      % if (logs.length === 0) {
+        <p>No logs match these filters.</p>
+      % }
+    </div>
+  </article>
+
+  <article class="panel list-panel">
+    <header><span class="pixel-icon">?</span><strong>Discussions</strong></header>
+    <div class="panel-body compact-list">
+      % for (const thread of threads) {
+        <a class="list-item" href="/detail/thread/<%= thread.discussion_thread_id %>">
+          <span class="pixel-icon small">?</span>
+          <span><strong><%= thread.title %></strong><small><%= thread.body_area %>, <%= thread.recovery_stage %> · <%= thread.status %></small></span>
+        </a>
+      % }
+      % if (threads.length === 0) {
+        <p>No discussions match these filters.</p>
+      % }
+    </div>
+  </article>
+
+  <article class="panel">
+    <header><span class="pixel-icon">◇</span><strong>Discovery rule</strong></header>
+    <div class="panel-body">
+      <p>Explore owns the “find people recovering at your stage” task. Home stays focused on status and next action.</p>
+      <div class="tag-row">
+        <span class="tag"><span>⌕</span>Discovery</span>
+        <span class="tag"><span>▣</span>Stage match</span>
+      </div>
+    </div>
+  </article>
+</section>
