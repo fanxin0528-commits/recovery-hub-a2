@@ -1,6 +1,6 @@
 % view.layout = 'default';
 <section class="page-heading">
-  <span class="pixel-icon large">⚑</span>
+  <span class="pixel-icon large" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-stage"></use></svg></span>
   <div>
     <h1>Stage Dashboard</h1>
     <p>Stage guidance and matched examples for <%= context?.recovery_stage ?? 'current stage' %>.</p>
@@ -9,33 +9,33 @@
 
 <section class="screen-grid stage-grid">
   <article class="panel">
-    <header><span class="pixel-icon">⚑</span><strong><%= stage?.name ?? 'Current stage' %></strong></header>
+    <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-stage"></use></svg></span><strong><%= stage?.name ?? 'Current stage' %></strong></header>
     <div class="panel-body">
       <h2>Test and observe response</h2>
       <p><%= stage?.description ?? '' %></p>
       <p><%= stage?.guidance ?? '' %></p>
       <div class="tag-row">
-        <span class="tag"><span>▤</span><%= stage?.intensity_level ?? 'low' %> intensity</span>
-        <span class="tag"><span>◎</span><%= context?.activity_goal ?? 'Goal' %></span>
+        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="/static/icons.svg#icon-log"></use></svg><%= stage?.intensity_level ?? 'low' %> intensity</span>
+        <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="/static/icons.svg#icon-movement"></use></svg><%= context?.activity_goal ?? 'Goal' %></span>
       </div>
     </div>
   </article>
 
   <article class="panel with-action">
-    <header><span class="pixel-icon">?</span><strong>Open questions</strong></header>
+    <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-question"></use></svg></span><strong>Open questions</strong></header>
     <div class="panel-body compact-list">
       % for (const thread of threads.slice(0, 2)) {
         <a class="list-item" href="/detail/thread/<%= thread.discussion_thread_id %>">
-          <span class="pixel-icon small">?</span>
+          <span class="pixel-icon small" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-question"></use></svg></span>
           <span><strong><%= thread.title %></strong><small><%= thread.status %></small></span>
         </a>
       % }
     </div>
-    <a class="edge-action" href="/detail/thread/2"><span>?</span>Open question</a>
+    <a class="edge-action" href="/detail/thread/2"><svg class="button-icon" aria-hidden="true"><use href="/static/icons.svg#icon-question"></use></svg>Open question</a>
   </article>
 
   <article class="panel">
-    <header><span class="pixel-icon">▥</span><strong>Stage state</strong></header>
+    <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-pain"></use></svg></span><strong>Stage state</strong></header>
     <div class="panel-body">
       <dl class="two-column-list">
         <dt>Stage</dt>
@@ -49,11 +49,11 @@
   </article>
 
   <article class="panel list-panel">
-    <header><span class="pixel-icon">☷</span><strong>Similar-stage logs</strong></header>
+    <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-list"></use></svg></span><strong>Similar-stage logs</strong></header>
     <div class="panel-body compact-list">
       % for (const log of logs.slice(0, 3)) {
         <a class="list-item" href="/detail/log/<%= log.recovery_log_id %>">
-          <span class="pixel-icon small">▤</span>
+          <span class="pixel-icon small" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-log"></use></svg></span>
           <span><strong><%= log.title %></strong><small>pain <%= log.pain_before %> → <%= log.pain_after %>, <%= log.author %></small></span>
         </a>
       % }
@@ -61,11 +61,11 @@
   </article>
 
   <article class="panel">
-    <header><span class="pixel-icon">◎</span><strong>Movement ideas</strong></header>
+    <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-movement"></use></svg></span><strong>Movement ideas</strong></header>
     <div class="panel-body compact-list">
       % for (const idea of movementIdeas) {
         <div class="list-item">
-          <span class="pixel-icon small">✓</span>
+          <span class="pixel-icon small" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-check"></use></svg></span>
           <span><strong><%= idea %></strong><small>Use as community inspiration, not medical advice.</small></span>
         </div>
       % }
@@ -73,10 +73,10 @@
   </article>
 
   <article class="panel with-action">
-    <header><span class="pixel-icon">⌕</span><strong>Need more matches?</strong></header>
+    <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-explore"></use></svg></span><strong>Need more matches?</strong></header>
     <div class="panel-body">
       <p>Use Explore filters for similar people, logs, discussions, and tags.</p>
     </div>
-    <a class="edge-action" href="/explore?stageId=<%= context?.recovery_stage_id ?? 2 %>&bodyAreaId=<%= context?.body_area_id ?? 1 %>&goalId=<%= context?.activity_goal_id ?? 1 %>"><span>⌕</span>Open Explore</a>
+    <a class="edge-action" href="/explore?stageId=<%= context?.recovery_stage_id ?? 2 %>&bodyAreaId=<%= context?.body_area_id ?? 1 %>&goalId=<%= context?.activity_goal_id ?? 1 %>"><svg class="button-icon" aria-hidden="true"><use href="/static/icons.svg#icon-explore"></use></svg>Open Explore</a>
   </article>
 </section>

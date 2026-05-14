@@ -151,6 +151,16 @@ function savedItems() {
   `, [currentUserId]);
 }
 
+function discussionReplies(threadId: number) {
+  return all(`
+    SELECT dr.*, u.display_name AS author
+    FROM discussion_replies dr
+    JOIN users u ON u.user_id = dr.author_user_id
+    WHERE dr.discussion_thread_id = ?
+    ORDER BY dr.created_at
+  `, [threadId]);
+}
+
 function sameContextWhere(context: Row | undefined, prefix: string) {
   return {
     where: `AND ${prefix}.recovery_stage_id = ? AND ${prefix}.body_area_id = ? AND (${prefix}.activity_goal_id = ? OR ${prefix}.activity_goal_id IS NULL)`,
@@ -159,6 +169,67 @@ function sameContextWhere(context: Row | undefined, prefix: string) {
       Number(context?.body_area_id ?? 1),
       Number(context?.activity_goal_id ?? 1),
     ],
+  };
+}
+
+function exploreData(filters: Record<string, string>) {
+  const logWhere: string[] = [];
+  const logParams: SqlValue[] = [];
+  const threadWhere: string[] = [];
+  const threadParams: SqlValue[] = [];
+
+  if (filters.stageId) {
+    logWhere.push('AND rl.recovery_stage_id = ?');
+    threadWhere.push('AND dt.recovery_stage_id = ?');
+    logParams.push(Number(filters.stageId));
+    threadParams.push(Number(filters.stageId));
+  }
+  if (filters.bodyAreaId) {
+    logWhere.push('AND rl.body_area_id = ?');
+    threadWhere.push('AND dt.body_area_id = ?');
+    logParams.push(Number(filters.bodyAreaId));
+    threadParams.push(Number(filters.bodyAreaId));
+  }
+  if (filters.goalId) {
+    logWhere.push('AND rl.activity_goal_id = ?');
+    threadWhere.push('AND dt.activity_goal_id = ?');
+    logParams.push(Number(filters.goalId));
+    threadParams.push(Number(filters.goalId));
+  }
+  if (filters.q) {
+    logWhere.push('AND (rl.title LIKE ? OR rl.movement_tried LIKE ? OR rl.symptoms_and_limits LIKE ?)');
+    threadWhere.push('AND (dt.title LIKE ? OR dt.question_body LIKE ?)');
+    logParams.push(`%${filters.q}%`, `%${filters.q}%`, `%${filters.q}%`);
+    threadParams.push(`%${filters.q}%`, `%${filters.q}%`);
+  }
+  if (filters.tag) {
+    logWhere.push('AND lt.name = ?');
+    logParams.push(filters.tag);
+  }
+
+  const similarPeople = all(`
+    SELECT u.user_id, u.display_name, ba.name AS body_area, rs.name AS recovery_stage, ag.name AS activity_goal
+    FROM user_recovery_contexts c
+    JOIN users u ON u.user_id = c.user_id
+    JOIN body_areas ba ON ba.body_area_id = c.body_area_id
+    JOIN recovery_stages rs ON rs.recovery_stage_id = c.recovery_stage_id
+    JOIN activity_goals ag ON ag.activity_goal_id = c.activity_goal_id
+    WHERE u.user_id != ?
+    ${filters.stageId ? 'AND c.recovery_stage_id = ?' : ''}
+    ${filters.bodyAreaId ? 'AND c.body_area_id = ?' : ''}
+    ${filters.goalId ? 'AND c.activity_goal_id = ?' : ''}
+    LIMIT 8
+  `, [
+    currentUserId,
+    ...(filters.stageId ? [Number(filters.stageId)] : []),
+    ...(filters.bodyAreaId ? [Number(filters.bodyAreaId)] : []),
+    ...(filters.goalId ? [Number(filters.goalId)] : []),
+  ]);
+
+  return {
+    similarPeople,
+    logs: logCards(logWhere.join('\n'), logParams),
+    threads: threadCards(threadWhere.join('\n'), threadParams),
   };
 }
 
@@ -292,65 +363,17 @@ app.get('/explore', async ctx => {
     q: query.get('q') ?? '',
   };
 
-  const logWhere: string[] = [];
-  const logParams: SqlValue[] = [];
-  const threadWhere: string[] = [];
-  const threadParams: SqlValue[] = [];
+  const results = exploreData(filters);
 
-  if (filters.stageId) {
-    logWhere.push('AND rl.recovery_stage_id = ?');
-    threadWhere.push('AND dt.recovery_stage_id = ?');
-    logParams.push(Number(filters.stageId));
-    threadParams.push(Number(filters.stageId));
+  if (ctx.req.get('HX-Request') === 'true') {
+    await ctx.render({ view: 'partials/explore-results' }, results);
+    return;
   }
-  if (filters.bodyAreaId) {
-    logWhere.push('AND rl.body_area_id = ?');
-    threadWhere.push('AND dt.body_area_id = ?');
-    logParams.push(Number(filters.bodyAreaId));
-    threadParams.push(Number(filters.bodyAreaId));
-  }
-  if (filters.goalId) {
-    logWhere.push('AND rl.activity_goal_id = ?');
-    threadWhere.push('AND dt.activity_goal_id = ?');
-    logParams.push(Number(filters.goalId));
-    threadParams.push(Number(filters.goalId));
-  }
-  if (filters.q) {
-    logWhere.push('AND (rl.title LIKE ? OR rl.movement_tried LIKE ? OR rl.symptoms_and_limits LIKE ?)');
-    threadWhere.push('AND (dt.title LIKE ? OR dt.question_body LIKE ?)');
-    logParams.push(`%${filters.q}%`, `%${filters.q}%`, `%${filters.q}%`);
-    threadParams.push(`%${filters.q}%`, `%${filters.q}%`);
-  }
-  if (filters.tag) {
-    logWhere.push('AND lt.name = ?');
-    logParams.push(filters.tag);
-  }
-
-  const similarPeople = all(`
-    SELECT u.user_id, u.display_name, ba.name AS body_area, rs.name AS recovery_stage, ag.name AS activity_goal
-    FROM user_recovery_contexts c
-    JOIN users u ON u.user_id = c.user_id
-    JOIN body_areas ba ON ba.body_area_id = c.body_area_id
-    JOIN recovery_stages rs ON rs.recovery_stage_id = c.recovery_stage_id
-    JOIN activity_goals ag ON ag.activity_goal_id = c.activity_goal_id
-    WHERE u.user_id != ?
-    ${filters.stageId ? 'AND c.recovery_stage_id = ?' : ''}
-    ${filters.bodyAreaId ? 'AND c.body_area_id = ?' : ''}
-    ${filters.goalId ? 'AND c.activity_goal_id = ?' : ''}
-    LIMIT 8
-  `, [
-    currentUserId,
-    ...(filters.stageId ? [Number(filters.stageId)] : []),
-    ...(filters.bodyAreaId ? [Number(filters.bodyAreaId)] : []),
-    ...(filters.goalId ? [Number(filters.goalId)] : []),
-  ]);
 
   await ctx.render({ view: 'explore', layout: 'default' }, renderData('explore', 'Explore Community', {
     filters,
     options: optionsData(),
-    similarPeople,
-    logs: logCards(logWhere.join('\n'), logParams),
-    threads: threadCards(threadWhere.join('\n'), threadParams),
+    ...results,
   }));
 });
 
@@ -369,18 +392,10 @@ app.get('/detail/:type/:id', async ctx => {
       WHERE dt.discussion_thread_id = ?
     `, [id]);
 
-    const replies = all(`
-      SELECT dr.*, u.display_name AS author
-      FROM discussion_replies dr
-      JOIN users u ON u.user_id = dr.author_user_id
-      WHERE dr.discussion_thread_id = ?
-      ORDER BY dr.created_at
-    `, [id]);
-
     await ctx.render({ view: 'detail', layout: 'default' }, renderData('detail', String(thread?.title ?? 'Discussion Detail'), {
       type,
       item: thread,
-      replies,
+      replies: discussionReplies(id),
       similar: logCards('AND rl.recovery_stage_id = ? AND rl.body_area_id = ?', [
         Number(thread?.recovery_stage_id ?? 2),
         Number(thread?.body_area_id ?? 1),
@@ -427,6 +442,15 @@ app.post('/discussion-replies', async ctx => {
       )
       VALUES (?, ?, ?, 1, 0, datetime('now'), datetime('now'))
     `, [threadId, currentUserId, reply]);
+  }
+
+  if (ctx.req.get('HX-Request') === 'true') {
+    await ctx.render({ view: 'partials/thread-replies' }, {
+      replies: discussionReplies(threadId),
+      threadId,
+      posted: Boolean(reply),
+    });
+    return;
   }
 
   await ctx.redirectTo(`/detail/thread/${threadId}`);

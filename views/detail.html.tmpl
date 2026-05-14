@@ -1,6 +1,6 @@
 % view.layout = 'default';
 <section class="page-heading">
-  <span class="pixel-icon large"><%= type === 'thread' ? '?' : '▤' %></span>
+  <span class="pixel-icon large" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#<%= type === 'thread' ? 'icon-question' : 'icon-log' %>"></use></svg></span>
   <div>
     <h1>Log / Discussion Detail</h1>
     <p>Context tags, replies, save/report actions, and similar-stage prompts.</p>
@@ -9,7 +9,7 @@
 
 % if (!item) {
   <article class="panel">
-    <header><span class="pixel-icon">!</span><strong>Not found</strong></header>
+    <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-report"></use></svg></span><strong>Not found</strong></header>
     <div class="panel-body">
       <p>This item does not exist in the demo database.</p>
       <a class="button primary" href="/explore">Back to Explore</a>
@@ -18,7 +18,7 @@
 % } else {
   <section class="screen-grid detail-grid">
     <article class="panel detail-main">
-      <header><span class="pixel-icon"><%= type === 'thread' ? '?' : '▤' %></span><strong><%= type === 'thread' ? 'Discussion' : 'Recovery log' %></strong></header>
+      <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#<%= type === 'thread' ? 'icon-question' : 'icon-log' %>"></use></svg></span><strong><%= type === 'thread' ? 'Discussion' : 'Recovery log' %></strong></header>
       <div class="panel-body">
         <h2><%= item.title %></h2>
         <p class="meta-line">By <%= item.author %> · <%= item.body_area %> · <%= item.recovery_stage %> · <%= item.activity_goal ?? 'general goal' %></p>
@@ -30,10 +30,10 @@
           <p><strong>What helped:</strong> <%= item.what_helped %></p>
           <p><strong>Community question:</strong> <%= item.question_for_community %></p>
           <div class="tag-row">
-            <span class="tag"><span>▥</span>pain <%= item.pain_before %> → <%= item.pain_after %></span>
-            <span class="tag"><span>✓</span><%= item.confidence_level %> confidence</span>
+            <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="/static/icons.svg#icon-pain"></use></svg>pain <%= item.pain_before %> → <%= item.pain_after %></span>
+            <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="/static/icons.svg#icon-check"></use></svg><%= item.confidence_level %> confidence</span>
             % if (item.tags) {
-              <span class="tag"><span>▣</span><%= item.tags %></span>
+              <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="/static/icons.svg#icon-list"></use></svg><%= item.tags %></span>
             % }
           </div>
         % }
@@ -41,29 +41,30 @@
     </article>
 
     <article class="panel">
-      <header><span class="pixel-icon">◇</span><strong>Actions</strong></header>
+      <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-shield"></use></svg></span><strong>Actions</strong></header>
       <div class="panel-body action-stack">
         <form method="post" action="/saved-items">
           <input type="hidden" name="type" value="<%= type %>">
           <input type="hidden" name="id" value="<%= type === 'thread' ? item.discussion_thread_id : item.recovery_log_id %>">
-          <button class="button primary" type="submit"><span>▣</span>Save</button>
+          <button class="button primary" type="submit"><svg class="button-icon" aria-hidden="true"><use href="/static/icons.svg#icon-saved"></use></svg>Save</button>
         </form>
         <form method="post" action="/content-reports">
           <input type="hidden" name="type" value="<%= type %>">
           <input type="hidden" name="id" value="<%= type === 'thread' ? item.discussion_thread_id : item.recovery_log_id %>">
           <input type="hidden" name="details" value="Flagged from detail page.">
-          <button class="button secondary" type="submit"><span>!</span>Report</button>
+          <button class="button secondary" type="submit"><svg class="button-icon" aria-hidden="true"><use href="/static/icons.svg#icon-report"></use></svg>Report</button>
         </form>
       </div>
     </article>
 
     % if (type === 'thread') {
+      <div id="thread-replies" class="thread-replies-fragment" aria-live="polite">
       <article class="panel detail-main">
-        <header><span class="pixel-icon">↩</span><strong>Replies</strong></header>
+        <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-reply"></use></svg></span><strong>Replies</strong></header>
         <div class="panel-body compact-list">
           % for (const reply of replies) {
             <div class="list-item">
-              <span class="pixel-icon small">↩</span>
+              <span class="pixel-icon small" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-reply"></use></svg></span>
               <span><strong><%= reply.author %></strong><small><%= reply.reply_body %></small></span>
             </div>
           % }
@@ -71,27 +72,28 @@
       </article>
 
       <article class="panel">
-        <header><span class="pixel-icon">✎</span><strong>Add reply</strong></header>
-        <form class="panel-body form-stack" method="post" action="/discussion-replies">
+        <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-edit"></use></svg></span><strong>Add reply</strong></header>
+        <form class="panel-body form-stack" method="post" action="/discussion-replies" hx-post="/discussion-replies" hx-target="#thread-replies" hx-swap="outerHTML">
           <input type="hidden" name="discussion_thread_id" value="<%= item.discussion_thread_id %>">
           <textarea name="reply_body" rows="5" placeholder="Share a short experience, not medical advice."></textarea>
-          <button class="button primary" type="submit"><span>↩</span>Post reply</button>
+          <button class="button primary" type="submit"><svg class="button-icon" aria-hidden="true"><use href="/static/icons.svg#icon-reply"></use></svg>Post reply</button>
         </form>
       </article>
+      </div>
     % }
 
     <article class="panel">
-      <header><span class="pixel-icon">⌕</span><strong>Similar stage prompt</strong></header>
+      <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-explore"></use></svg></span><strong>Similar stage prompt</strong></header>
       <div class="panel-body compact-list">
         % for (const match of similar.slice(0, 3)) {
           % if (type === 'thread') {
             <a class="list-item" href="/detail/log/<%= match.recovery_log_id %>">
-              <span class="pixel-icon small">▤</span>
+              <span class="pixel-icon small" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-log"></use></svg></span>
               <span><strong><%= match.title %></strong><small><%= match.body_area %>, <%= match.recovery_stage %></small></span>
             </a>
           % } else {
             <a class="list-item" href="/detail/thread/<%= match.discussion_thread_id %>">
-              <span class="pixel-icon small">?</span>
+              <span class="pixel-icon small" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-question"></use></svg></span>
               <span><strong><%= match.title %></strong><small><%= match.status %> discussion</small></span>
             </a>
           % }

@@ -1,6 +1,6 @@
 # Recovery Hub A2
 
-Recovery Hub is a SQLite-backed web prototype for DECO2017 A2. This version is intentionally written in the same style as the course examples: Mojo.js routes, `better-sqlite3` queries, server-rendered templates, and normal HTML forms.
+Recovery Hub is a SQLite-backed web prototype for DECO2017 A2. This version is intentionally written in the same style as the course examples: Mojo.js routes, `better-sqlite3` queries, server-rendered templates, small HTMX partial updates, and normal HTML form fallbacks.
 
 The design still follows the Figma high fidelity direction, but the code is kept simple enough to read as a student assignment instead of a production React app.
 
@@ -26,9 +26,11 @@ Main course patterns used:
 - `@mojojs/core` route handlers.
 - `ctx.render({ view, layout }, data)` for templates.
 - `better-sqlite3` prepared statements.
+- HTMX `hx-get` / `hx-post` for small partial updates, with normal form behaviour still working.
 - SQLite tables from `db/schema.sql`.
 - Seed data from `db/seed.sql`.
 - POST forms for context updates, new recovery logs, replies, saved items, and reports.
+- Accessibility checks from Week 11: semantic labels, visible focus states, readable contrast, and decorative icons hidden from screen readers.
 
 ## Tech Stack
 
@@ -36,6 +38,7 @@ Main course patterns used:
 - Mojo.js (`@mojojs/core`)
 - SQLite
 - `better-sqlite3`
+- HTMX for partial page updates
 - HTML templates in `views/`
 - CSS in `public/app.css`
 
@@ -80,6 +83,14 @@ npm run build
 - `docs/erd.md`
 
 Important rule: pain level is not edited in My Account or Recovery Context. It is derived from the newest `recovery_logs` row.
+
+## Course Alignment Notes
+
+- Week 03/04: pages are rendered with Mojo templates instead of a React SPA.
+- Week 04/09: all dynamic content comes from SQLite tables and JOIN queries, not static mock cards.
+- Week 05/10: Explore filters and discussion replies use HTMX partial rendering while preserving GET/POST fallbacks.
+- Week 09: the database package follows `wireframe -> DDD -> ERD -> schema -> seed`.
+- Week 11: the interface keeps keyboard focus visible and uses labelled controls; icons are decorative SVGs with readable text beside them.
 
 ## Sharing With Teammates
 

@@ -1,6 +1,6 @@
 % view.layout = 'default';
 <section class="page-heading">
-  <span class="pixel-icon large">▤</span>
+  <span class="pixel-icon large" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-log"></use></svg></span>
   <div>
     <h1>Structured Recovery Log</h1>
     <p>Pain before and pain after are the source of the latest pain state.</p>
@@ -9,7 +9,7 @@
 
 <form class="screen-grid form-grid" method="post" action="/logs">
   <article class="panel">
-    <header><span class="pixel-icon">▣</span><strong>Context tags</strong></header>
+    <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-body"></use></svg></span><strong>Context tags</strong></header>
     <div class="panel-body form-stack">
       <label>Body area
         <select name="body_area_id">
@@ -44,7 +44,7 @@
   </article>
 
   <article class="panel">
-    <header><span class="pixel-icon">✎</span><strong>What happened</strong></header>
+    <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-edit"></use></svg></span><strong>What happened</strong></header>
     <div class="panel-body form-stack">
       <label>Log title
         <input name="title" value="Short movement check-in">
@@ -59,7 +59,7 @@
   </article>
 
   <article class="panel">
-    <header><span class="pixel-icon">▥</span><strong>Pain response</strong></header>
+    <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-pain"></use></svg></span><strong>Pain response</strong></header>
     <div class="panel-body form-stack two-fields">
       <label>Pain before
         <input type="number" name="pain_before" min="0" max="10" value="2">
@@ -78,7 +78,7 @@
   </article>
 
   <article class="panel">
-    <header><span class="pixel-icon">?</span><strong>Community sharing</strong></header>
+    <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-question"></use></svg></span><strong>Community sharing</strong></header>
     <div class="panel-body form-stack">
       <label>What helped?
         <textarea name="what_helped" rows="3">Stopping early made it feel safer.</textarea>
@@ -99,14 +99,14 @@
   </article>
 
   <article class="panel">
-    <header><span class="pixel-icon">◇</span><strong>After submit</strong></header>
+    <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-check"></use></svg></span><strong>After submit</strong></header>
     <div class="panel-body">
       <p>Home and Account will show the latest pain state from this new log.</p>
     </div>
   </article>
 
   <div class="form-actions">
-    <button class="button primary" type="submit"><span>✓</span>Submit log</button>
-    <a class="button secondary" href="/"><span>⌂</span>Cancel</a>
+    <button class="button primary" type="submit"><svg class="button-icon" aria-hidden="true"><use href="/static/icons.svg#icon-check"></use></svg>Submit log</button>
+    <a class="button secondary" href="/"><svg class="button-icon" aria-hidden="true"><use href="/static/icons.svg#icon-home"></use></svg>Cancel</a>
   </div>
 </form>

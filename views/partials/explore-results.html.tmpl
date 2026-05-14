@@ -1,49 +1,3 @@
-% view.layout = 'default';
-<section class="page-heading">
-  <span class="pixel-icon large" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-explore"></use></svg></span>
-  <div>
-    <h1>Explore Community</h1>
-    <p>Find people, logs, and discussions by recovery stage, body area, goal, and tags.</p>
-  </div>
-</section>
-
-<form class="filter-bar" method="get" action="/explore" hx-get="/explore" hx-target="#explore-results" hx-swap="outerHTML" hx-push-url="true">
-  <label>Search <input name="q" value="<%= filters.q %>" placeholder="stairs, walking, stiffness"></label>
-  <label>Stage
-    <select name="stageId">
-      <option value="">Any</option>
-      % for (const stage of options.recoveryStages) {
-        <option value="<%= stage.recovery_stage_id %>" <%= String(stage.recovery_stage_id) === filters.stageId ? 'selected' : '' %>><%= stage.name %></option>
-      % }
-    </select>
-  </label>
-  <label>Body
-    <select name="bodyAreaId">
-      <option value="">Any</option>
-      % for (const body of options.bodyAreas) {
-        <option value="<%= body.body_area_id %>" <%= String(body.body_area_id) === filters.bodyAreaId ? 'selected' : '' %>><%= body.name %></option>
-      % }
-    </select>
-  </label>
-  <label>Goal
-    <select name="goalId">
-      <option value="">Any</option>
-      % for (const goal of options.activityGoals) {
-        <option value="<%= goal.activity_goal_id %>" <%= String(goal.activity_goal_id) === filters.goalId ? 'selected' : '' %>><%= goal.name %></option>
-      % }
-    </select>
-  </label>
-  <label>Tag
-    <select name="tag">
-      <option value="">Any</option>
-      % for (const tag of options.tags) {
-        <option value="<%= tag.name %>" <%= tag.name === filters.tag ? 'selected' : '' %>><%= tag.name %></option>
-      % }
-    </select>
-  </label>
-  <button class="button primary" type="submit"><svg class="button-icon" aria-hidden="true"><use href="/static/icons.svg#icon-explore"></use></svg>Apply filters</button>
-</form>
-
 <section id="explore-results" class="screen-grid explore-grid" aria-live="polite">
   <article class="panel">
     <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-people"></use></svg></span><strong>Similar people</strong></header>
@@ -93,7 +47,7 @@
   <article class="panel">
     <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-shield"></use></svg></span><strong>Discovery rule</strong></header>
     <div class="panel-body">
-      <p>Explore owns the “find people recovering at your stage” task. Home stays focused on status and next action.</p>
+      <p>Explore owns the "find people recovering at your stage" task. Home stays focused on status and next action.</p>
       <div class="tag-row">
         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="/static/icons.svg#icon-explore"></use></svg>Discovery</span>
         <span class="tag"><svg class="tag-icon" aria-hidden="true"><use href="/static/icons.svg#icon-stage"></use></svg>Stage match</span>

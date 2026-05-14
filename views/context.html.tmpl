@@ -1,6 +1,6 @@
 % view.layout = 'default';
 <section class="page-heading">
-  <span class="pixel-icon large">▣</span>
+  <span class="pixel-icon large" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-body"></use></svg></span>
   <div>
     <h1>Recovery Context Setup</h1>
     <p>Set relevance for recommendations. No signup and no manual pain input.</p>
@@ -13,7 +13,7 @@
 
 <form class="screen-grid form-grid" method="post" action="/context">
   <article class="panel">
-    <header><span class="pixel-icon">▣</span><strong>Recovery context</strong></header>
+    <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-body"></use></svg></span><strong>Recovery context</strong></header>
     <div class="panel-body form-stack">
       <label>Body area
         <select name="body_area_id">
@@ -47,7 +47,7 @@
   </article>
 
   <article class="panel">
-    <header><span class="pixel-icon">✎</span><strong>Limitations</strong></header>
+    <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-edit"></use></svg></span><strong>Limitations</strong></header>
     <div class="panel-body form-stack">
       <label>Current limitation
         <textarea name="current_limitation" rows="5"><%= context?.current_limitation ?? '' %></textarea>
@@ -57,7 +57,7 @@
   </article>
 
   <article class="panel">
-    <header><span class="pixel-icon">⚙</span><strong>Preferences</strong></header>
+    <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-gear"></use></svg></span><strong>Preferences</strong></header>
     <div class="panel-body form-stack check-list">
       <label><input type="checkbox" name="personalize_recommendations" <%= context?.personalize_recommendations ? 'checked' : '' %>> Personalize recommendations</label>
       <label><input type="checkbox" name="share_stage_tags" <%= context?.share_stage_tags ? 'checked' : '' %>> Share stage tags</label>
@@ -66,15 +66,15 @@
   </article>
 
   <article class="panel">
-    <header><span class="pixel-icon">▥</span><strong>Removed field</strong></header>
+    <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-pain"></use></svg></span><strong>Removed field</strong></header>
     <div class="panel-body media-panel">
       <p><strong>No pain slider.</strong> Pain level appears from structured logs, not from account settings.</p>
-      <span class="spot-icon">▥</span>
+      <span class="spot-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-pain"></use></svg></span>
     </div>
   </article>
 
   <div class="form-actions">
-    <button class="button primary" type="submit"><span>✓</span>Save context</button>
-    <a class="button secondary" href="/account"><span>♙</span>View account summary</a>
+    <button class="button primary" type="submit"><svg class="button-icon" aria-hidden="true"><use href="/static/icons.svg#icon-check"></use></svg>Save context</button>
+    <a class="button secondary" href="/account"><svg class="button-icon" aria-hidden="true"><use href="/static/icons.svg#icon-account"></use></svg>View account summary</a>
   </div>
 </form>

@@ -1,0 +1,25 @@
+<div id="thread-replies" class="thread-replies-fragment" aria-live="polite">
+  <article class="panel detail-main">
+    <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-reply"></use></svg></span><strong>Replies</strong></header>
+    <div class="panel-body compact-list">
+      % if (posted) {
+        <p class="status-message inline-status">Reply posted.</p>
+      % }
+      % for (const reply of replies) {
+        <div class="list-item">
+          <span class="pixel-icon small" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-reply"></use></svg></span>
+          <span><strong><%= reply.author %></strong><small><%= reply.reply_body %></small></span>
+        </div>
+      % }
+    </div>
+  </article>
+
+  <article class="panel">
+    <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-edit"></use></svg></span><strong>Add reply</strong></header>
+    <form class="panel-body form-stack" method="post" action="/discussion-replies" hx-post="/discussion-replies" hx-target="#thread-replies" hx-swap="outerHTML">
+      <input type="hidden" name="discussion_thread_id" value="<%= threadId %>">
+      <textarea name="reply_body" rows="5" placeholder="Share a short experience, not medical advice."></textarea>
+      <button class="button primary" type="submit"><svg class="button-icon" aria-hidden="true"><use href="/static/icons.svg#icon-reply"></use></svg>Post reply</button>
+    </form>
+  </article>
+</div>
