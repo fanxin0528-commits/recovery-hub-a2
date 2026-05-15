@@ -4,6 +4,41 @@ Recovery Hub is a SQLite-backed BlaBla community hub prototype for DECO2017 A2. 
 
 The design still follows the Figma high fidelity direction, but the code is kept simple enough to read as a student assignment instead of a production React app.
 
+## For Markers: Start Here
+
+Run the project:
+
+```sh
+npm install
+npm run seed
+npm run dev
+```
+
+Then open:
+
+```text
+http://127.0.0.1:3000/
+```
+
+Recommended review route:
+
+```text
+/login -> / -> /explore -> /detail/thread/1 -> /log/new -> /account
+```
+
+The detailed marker route is documented in `docs/demo-walkthrough.md`.
+
+Key thing to check: Home and Account do not store or edit pain level manually. They read latest pain state from the newest `recovery_logs` row after the user submits a structured recovery log.
+
+Submission evidence:
+
+- `docs/demo-walkthrough.md` - short demo script and assessment evidence map.
+- `docs/validation-report.md` - checked routes, database behaviour, course method alignment, and responsive checks.
+- `docs/screenshots/` - desktop and mobile screenshots generated from the local app.
+- `docs/ddd.md` and `docs/erd.md` - wireframe to data design evidence.
+- `db/schema.sql`, `db/seed.sql`, and `db/recovery_hub.db` - SQLite implementation.
+- `test/recoveryHubModel.test.js` - automated data-flow validation.
+
 ## What The Prototype Shows
 
 - A course-style login/session page where testers select an existing BlaBla seed member.
@@ -71,6 +106,10 @@ db/
   recovery_hub.db
 dbml/
   schema.dbml
+docs/
+  demo-walkthrough.md
+  screenshots/
+  validation-report.md
 ```
 
 ## Run Locally
@@ -97,6 +136,15 @@ npm run test
 
 `npm run db:reset` is kept as an alias for `npm run seed`.
 
+Optional screenshot evidence:
+
+```sh
+npm run dev
+npm run screenshots
+```
+
+The screenshot command expects the local app to be running at `http://127.0.0.1:3000/`.
+
 ## Main Routes
 
 - `/` - Hub Home
@@ -117,6 +165,8 @@ npm run test
 - `db/README.md`
 - `docs/ddd.md`
 - `docs/erd.md`
+- `docs/demo-walkthrough.md`
+- `docs/screenshots/`
 - `docs/validation-report.md`
 
 Important rule: pain level is not edited in My Account or Recovery Context. It is derived from the newest `recovery_logs` row.

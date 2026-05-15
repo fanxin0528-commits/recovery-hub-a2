@@ -10,6 +10,7 @@
     "test": "npm run build && tap --disable-coverage --allow-empty-coverage test/*.js test/*.ts",
     "seed": "npm run build && node lib/seed.js",
     "db:reset": "npm run seed",
+    "screenshots": "node scripts/capture-screenshots.mjs",
     "lint": "npm-run-all --continue-on-error lint:ts lint:css",
     "lint:fix": "npm-run-all --continue-on-error lint:ts:fix lint:css:fix",
     "lint:ts": "eslint",

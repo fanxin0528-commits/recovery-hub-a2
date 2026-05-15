@@ -1,6 +1,6 @@
 # Validation Report
 
-Date: 2026-05-15
+Date: 2026-05-16
 
 ## Current Scope
 
@@ -39,6 +39,44 @@ This A2 prototype is a BlaBla community hub for recovery-stage support. It uses 
 - Mobile hides the desktop tab row and uses a fixed square segmented bottom nav.
 - Mobile page content has bottom padding so the nav does not cover forms or edge-action buttons.
 - Tags and nav labels are constrained to prevent line breaks or overflow.
+- Screenshot evidence is stored in `docs/screenshots/`.
+
+Captured screens:
+
+- `docs/screenshots/home-desktop.png`
+- `docs/screenshots/explore-desktop.png`
+- `docs/screenshots/home-mobile.png`
+- `docs/screenshots/log-mobile.png`
+
+## Latest Local Verification
+
+Last checked on 2026-05-16:
+
+```sh
+npm run lint
+npm run test
+npm run build
+```
+
+Result:
+
+- TypeScript and CSS lint passed.
+- Model/data-flow tests passed with 14 assertions.
+- TypeScript build passed.
+
+Seed database check:
+
+```text
+users = 5
+contexts = 5
+recovery_logs = 5
+discussion_threads = 3
+discussion_replies = 4
+```
+
+Remote check:
+
+- Personal GitHub `origin/main` and school GitHub `school/recovery-hub-starter-migration` were both aligned to the same latest implementation before this final packaging pass.
 
 ## Known Constraints
 
