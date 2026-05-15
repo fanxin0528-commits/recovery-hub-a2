@@ -1,6 +1,6 @@
 # Course Implementation Notes
 
-This prototype is intentionally implemented in a DECO2017 course style rather than as a production SPA.
+This prototype is intentionally implemented in a DECO2017 course style rather than as a production SPA. Product-wise, it is framed as a BlaBla community hub focused on recovery-stage relevance, not as an independent medical tracking product.
 
 ## Patterns Used From Class
 
@@ -29,7 +29,7 @@ This prototype is intentionally implemented in a DECO2017 course style rather th
 
 ## Simplifications
 
-- There is no public signup flow. The login page is a local test-session picker based on the course starter.
+- There is no public signup flow. The login page is a local BlaBla test-member picker based on the course starter.
 - The current user comes from the encrypted Mojo session instead of being hard-coded in route handlers.
 - The app does not use React, Vite, or a separate JSON API layer.
 - HTMX is only used where the course examples use it: small client-server updates, not full application state.
@@ -41,3 +41,11 @@ This prototype is intentionally implemented in a DECO2017 course style rather th
 - Explore owns similar people / logs / discussions discovery.
 - My Account does not contain a manual pain slider.
 - Latest pain state is derived from the newest row in `recovery_logs`.
+
+## Demo Flow
+
+1. Choose a seeded BlaBla test member on `/login`.
+2. Land on Home to see current recovery context and latest pain state.
+3. Use Explore to find similar members, logs, and discussions.
+4. Open a detail page to reply, save, or report community content.
+5. Submit a structured recovery log so Home and Account show the updated latest pain state.

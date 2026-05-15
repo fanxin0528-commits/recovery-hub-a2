@@ -43,7 +43,7 @@ export default class Controller {
       session.profileName = user.profileName;
     }
 
-    await ctx.redirectTo('/');
+    await ctx.redirectTo('/?session=1');
   }
 
   async logout(ctx: MojoContext): Promise<void> {

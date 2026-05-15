@@ -64,6 +64,19 @@ textarea:focus-visible {
   letter-spacing: 0;
 }
 
+.brand-copy {
+  display: grid;
+  gap: 1px;
+}
+
+.brand-copy small {
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  opacity: .78;
+}
+
 .desktop-nav {
   display: flex;
   align-items: center;
@@ -369,6 +382,7 @@ textarea:focus-visible {
   background: #eef8ff;
   font-weight: 700;
   white-space: nowrap;
+  max-width: 100%;
 }
 
 .two-column-list {
@@ -552,18 +566,12 @@ input[type="checkbox"] {
     font-size: 20px;
   }
 
-  .desktop-nav {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    padding-bottom: 4px;
+  .brand-copy small {
+    display: none;
   }
 
-  .desktop-nav .nav-button {
-    min-height: 38px;
-    padding: 7px 12px;
+  .desktop-nav {
+    display: none;
   }
 
   .fx-button {
@@ -575,7 +583,7 @@ input[type="checkbox"] {
 
   .page-shell {
     width: min(390px, calc(100% - 24px));
-    padding: 22px 0 28px;
+    padding: 22px 0 118px;
   }
 
   .page-heading {
@@ -635,7 +643,9 @@ input[type="checkbox"] {
   }
 
   .tag {
-    white-space: normal;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   .form-actions {
@@ -649,16 +659,21 @@ input[type="checkbox"] {
   }
 
   .mobile-nav {
+    position: fixed;
+    left: 50%;
+    bottom: 8px;
+    z-index: 30;
     display: grid;
     width: min(390px, calc(100% - 20px));
     grid-template-columns: repeat(5, 1fr);
     gap: 6px;
-    margin: 0 auto 12px;
+    margin: 0;
     padding: 8px;
     border: 2px solid var(--line);
     border-radius: 4px;
     background: #cfeaff;
     box-shadow: 0 0 0 2px rgba(255, 255, 255, .35);
+    transform: translateX(-50%);
   }
 
   .mobile-nav a {
@@ -667,14 +682,17 @@ input[type="checkbox"] {
     padding: 7px 4px;
     gap: 2px;
     flex-direction: column;
+    overflow: hidden;
     box-shadow: 3px 3px 0 rgba(10, 61, 131, .35);
   }
 
   .mobile-nav small {
     display: block;
+    max-width: 100%;
     font-size: 11px;
     line-height: 1;
     white-space: nowrap;
+    overflow: hidden;
   }
 
   .mobile-nav a.active {

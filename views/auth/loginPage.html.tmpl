@@ -1,15 +1,15 @@
 <section class="page-heading compact-heading">
   <span class="pixel-icon large" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-account"></use></svg></span>
   <div>
-    <h1>Choose a Test User</h1>
-    <p>This is a course-style session picker, not a public signup flow.</p>
+    <h1>Choose a Test Member</h1>
+    <p>BlaBla handles the wider account context. This course prototype only lets testers pick a seeded member session.</p>
   </div>
 </section>
 
 <section class="screen-grid login-grid">
   <form class="panel form-stack" method="post" action="/login">
     <input type="hidden" name="action" value="select">
-    <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-people"></use></svg></span><strong>Existing seed users</strong></header>
+    <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-people"></use></svg></span><strong>Existing seed members</strong></header>
     <div class="panel-body form-stack">
       <% if (users.length > 0) { %>
         <% for (const user of users) { %>
@@ -27,14 +27,14 @@
 
   <form class="panel form-stack" method="post" action="/login">
     <input type="hidden" name="action" value="create">
-    <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-edit"></use></svg></span><strong>Create test user</strong></header>
+    <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-edit"></use></svg></span><strong>Create local test member</strong></header>
     <div class="panel-body form-stack">
       <label>
         Profile name
         <input type="text" name="profileName" required>
       </label>
-      <p class="muted">New test users receive a default recovery context so the prototype can run immediately.</p>
-      <button class="button secondary" type="submit"><svg class="button-icon" aria-hidden="true"><use href="/static/icons.svg#icon-account"></use></svg>Create test user</button>
+      <p class="muted">This is only a local demo helper. A real BlaBla account flow is outside the A2 prototype.</p>
+      <button class="button secondary" type="submit"><svg class="button-icon" aria-hidden="true"><use href="/static/icons.svg#icon-account"></use></svg>Create test member</button>
     </div>
   </form>
 </section>

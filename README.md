@@ -1,17 +1,17 @@
 # Recovery Hub A2
 
-Recovery Hub is a SQLite-backed web prototype for DECO2017 A2. This version is intentionally written on top of the course starter pattern: Mojo.js routes, controller classes, model classes, `better-sqlite3` queries, server-rendered templates, small HTMX partial updates, and normal HTML form fallbacks.
+Recovery Hub is a SQLite-backed BlaBla community hub prototype for DECO2017 A2. This version is intentionally written on top of the course starter pattern: Mojo.js routes, controller classes, model classes, `better-sqlite3` queries, server-rendered templates, small HTMX partial updates, and normal HTML form fallbacks.
 
 The design still follows the Figma high fidelity direction, but the code is kept simple enough to read as a student assignment instead of a production React app.
 
 ## What The Prototype Shows
 
-- A course-style login/session page where testers select an existing seed user.
+- A course-style login/session page where testers select an existing BlaBla seed member.
 - Home as a recovery-state snapshot and next-action page.
 - Explore as the place to find similar people, logs, and discussions.
 - Structured recovery logs as the source of latest pain state.
 - My Account showing pain state as read-only from the latest log.
-- No public signup page and no guest session. The create-user form is only a local test-session helper from the starter pattern.
+- No public signup page and no guest session. The create-member form is only a local test-session helper from the starter pattern.
 
 ## Course-Style Workflow
 
@@ -117,6 +117,7 @@ npm run test
 - `db/README.md`
 - `docs/ddd.md`
 - `docs/erd.md`
+- `docs/validation-report.md`
 
 Important rule: pain level is not edited in My Account or Recovery Context. It is derived from the newest `recovery_logs` row.
 
@@ -128,6 +129,7 @@ Important rule: pain level is not edited in My Account or Recovery Context. It i
 - Week 05/10: Explore filters and discussion replies use HTMX partial rendering while preserving GET/POST fallbacks.
 - Week 09: the database package follows `wireframe -> DDD -> ERD -> schema -> seed`.
 - Week 11: the interface keeps keyboard focus visible and uses labelled controls; icons are decorative SVGs with readable text beside them.
+- Validation notes are kept in `docs/validation-report.md`.
 
 ## Sharing With Teammates
 

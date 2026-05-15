@@ -39,6 +39,8 @@ export default class Controller {
       recommendedLogs: hub.logCards(`${logMatch.where} AND rl.user_id != ?`, [...logMatch.params, userId]),
       recommendedThreads: hub.threadCards(threadMatch.where, threadMatch.params),
       saved: hub.savedItems(userId),
+      sessionMessage: ctx.req.query.get('session') === '1',
+      loggedMessage: ctx.req.query.get('logged') === '1',
     }));
   }
 

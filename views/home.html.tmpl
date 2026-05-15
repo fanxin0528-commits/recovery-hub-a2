@@ -3,7 +3,7 @@
   <span class="pixel-icon large" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-home"></use></svg></span>
   <div>
     <h1>Hub Home</h1>
-    <p>A calm entry view for current state, next action, and recent relevance.</p>
+    <p>A BlaBla community hub snapshot for current recovery state, next action, and recent relevance.</p>
   </div>
   <aside class="note-card">
     <strong>High fidelity v1</strong>
@@ -11,12 +11,20 @@
   </aside>
 </section>
 
+<% if (sessionMessage) { %>
+  <p class="status-message">Session started. The demo flow begins on Home, then moves to Explore, Detail, or Structured Log.</p>
+<% } %>
+
+<% if (loggedMessage) { %>
+  <p class="status-message">Recovery log saved. Home and Account now read the latest pain state from the newest structured log.</p>
+<% } %>
+
 <section class="screen-grid home-grid">
   <article class="panel">
     <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-body"></use></svg></span><strong>Current context</strong></header>
     <div class="panel-body">
       <h2><%= context?.body_area ?? 'Knee' %> - <%= context?.recovery_stage ?? 'Controlled Return' %></h2>
-      <p>Goal: <%= context?.activity_goal ?? 'Return to running' %>. Latest pain comes from the most recent structured log.</p>
+      <p>Goal: <%= context?.activity_goal ?? 'Return to running' %>. Latest pain comes from the most recent structured log, not a manual account field.</p>
       <dl class="two-column-list">
         <dt>Latest pain after</dt>
         <dd><%= latestPain?.pain_after ?? '-' %> / 10</dd>
@@ -80,7 +88,7 @@
   <article class="panel with-action">
     <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-account"></use></svg></span><strong>Account summary</strong></header>
     <div class="panel-body media-panel">
-      <p>Account shows the same read-only pain state and preferences.</p>
+      <p>Account shows the same read-only pain state and BlaBla member preferences.</p>
       <span class="spot-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-account"></use></svg></span>
     </div>
     <a class="edge-action secondary" href="/account"><svg class="button-icon" aria-hidden="true"><use href="/static/icons.svg#icon-account"></use></svg>View account</a>
@@ -89,7 +97,7 @@
   <article class="panel with-action">
     <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-saved"></use></svg></span><strong>Saved for later</strong></header>
     <div class="panel-body">
-      <p><%= saved.length %> items saved from similar-stage recovery stories.</p>
+      <p><%= saved.length %> items saved from similar-stage BlaBla recovery stories.</p>
     </div>
     <a class="edge-action secondary" href="/account"><svg class="button-icon" aria-hidden="true"><use href="/static/icons.svg#icon-saved"></use></svg>Open saved</a>
   </article>
@@ -105,7 +113,7 @@
   <article class="panel with-action">
     <header><span class="pixel-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-explore"></use></svg></span><strong>Need similar people?</strong></header>
     <div class="panel-body media-panel">
-      <p>Use Explore filters for stage, body area, goal, and tags.</p>
+      <p>Use Explore filters for stage, body area, goal, tags, and other BlaBla members.</p>
       <span class="spot-icon" aria-hidden="true"><svg class="pixel-symbol"><use href="/static/icons.svg#icon-explore"></use></svg></span>
     </div>
     <a class="edge-action" href="/explore"><svg class="button-icon" aria-hidden="true"><use href="/static/icons.svg#icon-explore"></use></svg>Open Explore</a>
