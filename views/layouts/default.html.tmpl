@@ -6,7 +6,7 @@
     <title><%= title %> - Recovery Hub</title>
     <link rel="icon" href="<%= ctx.urlForFile('favicon.svg') %>">
     <link rel="stylesheet" href="<%= ctx.urlForFile('app.css') %>">
-    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+    <script src="<%= ctx.urlForFile('js/htmx.min.js') %>" defer></script>
   </head>
   <body>
     <header class="topbar">
@@ -21,7 +21,11 @@
         <a class="nav-button <%= active === 'log' ? 'active' : '' %>" href="/log/new"><svg class="button-icon" aria-hidden="true"><use href="/static/icons.svg#icon-log"></use></svg> Log</a>
         <a class="nav-button <%= active === 'account' || active === 'context' ? 'active' : '' %>" href="/account"><svg class="button-icon" aria-hidden="true"><use href="/static/icons.svg#icon-account"></use></svg> Account</a>
       </nav>
-      <span class="nav-button fx-button"><svg class="button-icon" aria-hidden="true"><use href="/static/icons.svg#icon-gear"></use></svg> FX</span>
+      <% if (ctx.stash.profileName) { %>
+        <a class="nav-button fx-button session-button" href="/logout"><svg class="button-icon" aria-hidden="true"><use href="/static/icons.svg#icon-gear"></use></svg><span><%= ctx.stash.profileName %></span><small>Logout</small></a>
+      <% } else { %>
+        <span class="nav-button fx-button"><svg class="button-icon" aria-hidden="true"><use href="/static/icons.svg#icon-gear"></use></svg> FX</span>
+      <% } %>
     </header>
 
     <main class="page-shell">

@@ -18,7 +18,13 @@
 npm run db:reset
 ```
 
-这个脚本会删除旧的 `db/recovery_hub.db`，再按 `schema.sql` 和 `seed.sql` 重新创建数据库。
+这个命令现在是课程 starter 风格的 `npm run seed` 的别名。它会先编译 TypeScript，再运行 `lib/seed.js`，删除旧的 `db/recovery_hub.db`，并按 `schema.sql` 和 `seed.sql` 重新创建数据库。
+
+也可以直接执行：
+
+```sh
+npm run seed
+```
 
 ## 核心验证查询
 
@@ -124,6 +130,14 @@ LIMIT 1;
 - `recovery_logs` 与 `log_tags` 是多对多，通过 `recovery_log_tags` 拆表。
 
 ## Changelog
+
+### 2026-05-15
+
+- 按学校 `bla-bla-prototype` starter 结构重整项目：`src/index.ts` 只保留 config、session hook、model 注册和 routes。
+- 新增 `src/controllers/` 和 `src/models/`，把页面行为和 SQL 查询拆到课程示例的 controller/model 模式。
+- 新增 `src/seed.ts`，`npm run seed` 负责重建 `db/recovery_hub.db`。
+- 新增 `dbml/schema.dbml`，与 starter 的数据库文档方式对齐。
+- 数据表本身没有改变；本次是项目结构和课程 workflow 对齐。
 
 ### 2026-05-09
 

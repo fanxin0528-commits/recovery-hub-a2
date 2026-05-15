@@ -1,3 +1,16 @@
+### Project files ###
+lib
+config.yml
+uploads
+public/js
+
+test_temp
+
+tools
+*.db
+*.wal
+
+### Node ###
 # Logs
 logs
 *.log
@@ -11,6 +24,9 @@ node_modules
 dist
 dist-ssr
 *.local
+*.tsbuildinfo
+.tap
+.stylelintcache
 
 # Editor directories and files
 .vscode/*

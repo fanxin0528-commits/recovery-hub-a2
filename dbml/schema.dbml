@@ -1,0 +1,137 @@
+Project recovery_hub {
+  database_type: 'SQLite'
+  Note: 'Recovery Hub A2 schema converted from wireframes -> DDD -> ERD -> SQLite.'
+}
+
+Table users {
+  user_id integer [pk]
+  username text [not null, unique]
+  display_name text [not null]
+  email text [unique]
+  avatar_url text
+  role text [not null]
+  is_active integer [not null]
+  created_at text [not null]
+  updated_at text [not null]
+}
+
+Table body_areas {
+  body_area_id integer [pk]
+  name text [not null, unique]
+  description text
+}
+
+Table recovery_stages {
+  recovery_stage_id integer [pk]
+  stage_order integer [not null, unique]
+  name text [not null, unique]
+  description text [not null]
+  guidance text
+  intensity_level text [not null]
+}
+
+Table activity_goals {
+  activity_goal_id integer [pk]
+  name text [not null, unique]
+  description text
+}
+
+Table user_recovery_contexts {
+  context_id integer [pk]
+  user_id integer [not null, unique, ref: > users.user_id]
+  body_area_id integer [not null, ref: > body_areas.body_area_id]
+  recovery_stage_id integer [not null, ref: > recovery_stages.recovery_stage_id]
+  activity_goal_id integer [not null, ref: > activity_goals.activity_goal_id]
+  experience_level text [not null]
+  current_limitation text
+  personalize_recommendations integer [not null]
+  share_stage_tags integer [not null]
+  allow_optional_tracking integer [not null]
+  created_at text [not null]
+  updated_at text [not null]
+}
+
+Table recovery_logs {
+  recovery_log_id integer [pk]
+  user_id integer [not null, ref: > users.user_id]
+  body_area_id integer [not null, ref: > body_areas.body_area_id]
+  recovery_stage_id integer [not null, ref: > recovery_stages.recovery_stage_id]
+  activity_goal_id integer [not null, ref: > activity_goals.activity_goal_id]
+  title text [not null]
+  log_date text [not null]
+  movement_tried text [not null]
+  symptoms_and_limits text
+  what_helped text
+  question_for_community text
+  pain_before integer [not null]
+  pain_after integer [not null]
+  confidence_level text [not null]
+  visibility text [not null]
+  allow_similar_stage_discovery integer [not null]
+  ask_for_replies integer [not null]
+  created_at text [not null]
+  updated_at text [not null]
+}
+
+Table log_tags {
+  log_tag_id integer [pk]
+  name text [not null, unique]
+  description text
+}
+
+Table recovery_log_tags {
+  recovery_log_tag_id integer [pk]
+  recovery_log_id integer [not null, ref: > recovery_logs.recovery_log_id]
+  log_tag_id integer [not null, ref: > log_tags.log_tag_id]
+  created_at text [not null]
+
+  indexes {
+    (recovery_log_id, log_tag_id) [unique]
+  }
+}
+
+Table discussion_threads {
+  discussion_thread_id integer [pk]
+  author_user_id integer [not null, ref: > users.user_id]
+  body_area_id integer [not null, ref: > body_areas.body_area_id]
+  recovery_stage_id integer [not null, ref: > recovery_stages.recovery_stage_id]
+  activity_goal_id integer [ref: > activity_goals.activity_goal_id]
+  title text [not null]
+  question_body text [not null]
+  status text [not null]
+  is_flagged integer [not null]
+  created_at text [not null]
+  updated_at text [not null]
+}
+
+Table discussion_replies {
+  discussion_reply_id integer [pk]
+  discussion_thread_id integer [not null, ref: > discussion_threads.discussion_thread_id]
+  author_user_id integer [not null, ref: > users.user_id]
+  reply_body text [not null]
+  is_experience_share integer [not null]
+  is_marked_helpful integer [not null]
+  created_at text [not null]
+  updated_at text [not null]
+}
+
+Table saved_items {
+  saved_item_id integer [pk]
+  user_id integer [not null, ref: > users.user_id]
+  recovery_log_id integer [ref: > recovery_logs.recovery_log_id]
+  discussion_thread_id integer [ref: > discussion_threads.discussion_thread_id]
+  created_at text [not null]
+}
+
+Table content_reports {
+  content_report_id integer [pk]
+  reporter_user_id integer [not null, ref: > users.user_id]
+  recovery_log_id integer [ref: > recovery_logs.recovery_log_id]
+  discussion_thread_id integer [ref: > discussion_threads.discussion_thread_id]
+  discussion_reply_id integer [ref: > discussion_replies.discussion_reply_id]
+  reason text [not null]
+  details text
+  status text [not null]
+  created_at text [not null]
+  resolved_at text
+}

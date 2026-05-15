@@ -433,7 +433,7 @@
   - 视觉 / UI 负责人：Bai Hao Fang
   - 视觉 / UI 职责：Figma high fidelity UI、pixel icon system、block / button 样式一致性、desktop / mobile visual QA。
   - 预计完成时间：TBD
-  - 验收标准：能用 `user_id = 1` 查询 context、latest pain state 和推荐内容；页面正常渲染且不出现手动 pain level 输入。
+  - 验收标准：能用登录 session 中的 seed user 查询 context、latest pain state 和推荐内容；页面正常渲染且不出现手动 pain level 输入。
 
 - [ ] **View：Recovery Context Setup**
   - 对应功能：设置 body area、stage、goal、experience level 和 preferences。

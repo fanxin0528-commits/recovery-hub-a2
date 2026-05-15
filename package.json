@@ -4,24 +4,49 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/index.ts server",
-    "server": "tsx src/index.ts server",
-    "db:reset": "node scripts/reset-db.mjs",
-    "build": "tsc -p tsconfig.json",
-    "lint": "eslint ."
+    "build": "tsc --build ./",
+    "build:test": "npm-run-all build test",
+    "dev": "nodemon",
+    "test": "tap --disable-coverage --allow-empty-coverage test/*.js test/*.ts",
+    "seed": "npm run build && node lib/seed.js",
+    "db:reset": "npm run seed",
+    "lint": "npm-run-all --continue-on-error lint:ts lint:css",
+    "lint:fix": "npm-run-all --continue-on-error lint:ts:fix lint:css:fix",
+    "lint:ts": "eslint",
+    "lint:ts:fix": "eslint --fix",
+    "lint:css": "stylelint \"**/*.css\"",
+    "lint:css:fix": "stylelint --fix \"**/*.css\"",
+    "postinstall": "node -e \"const fs=require('fs');fs.mkdirSync('public/js',{recursive:true});fs.copyFileSync('node_modules/htmx.org/dist/htmx.min.js','public/js/htmx.min.js')\""
   },
   "dependencies": {
     "@mojojs/core": "^1.26.14",
-    "better-sqlite3": "^12.9.0"
+    "better-sqlite3": "^12.9.0",
+    "htmx.org": "^2.0.8"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/better-sqlite3": "^7.6.13",
+    "@types/mime-types": "^2.1.0",
     "@types/node": "^24.12.2",
+    "@types/stack-utils": "^2.0.1",
+    "@types/tough-cookie": "^4.0.2",
+    "@types/ws": "^8.5.3",
     "eslint": "^10.2.1",
     "globals": "^17.5.0",
-    "tsx": "^4.21.0",
+    "nodemon": "^3.0.0",
+    "npm-run-all2": "^7.0.2",
+    "stylelint": "^16.19.1",
+    "stylelint-config-standard": "^38.0.0",
+    "tap": "^21.0.0",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.58.2"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "src",
+      "views"
+    ],
+    "ext": "ts,tmpl,css",
+    "exec": "npm run build && node lib/index.js server"
   }
 }

@@ -103,6 +103,15 @@ textarea:focus-visible {
   justify-self: end;
 }
 
+.session-button {
+  gap: 7px;
+}
+
+.session-button small {
+  font-size: 11px;
+  opacity: .85;
+}
+
 .page-shell {
   width: min(1440px, calc(100% - 48px));
   margin: 0 auto;
@@ -115,6 +124,10 @@ textarea:focus-visible {
   align-items: center;
   gap: 16px;
   margin-bottom: 28px;
+}
+
+.compact-heading {
+  grid-template-columns: auto 1fr;
 }
 
 .page-heading h1 {
@@ -389,6 +402,25 @@ textarea:focus-visible {
 .form-stack {
   display: grid;
   gap: 16px;
+}
+
+.login-grid {
+  grid-template-columns: repeat(2, minmax(280px, 1fr));
+  align-items: start;
+}
+
+.radio-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 34px;
+  font-weight: 700;
+}
+
+code {
+  padding: 2px 5px;
+  border: 1px solid var(--line);
+  background: var(--white);
 }
 
 .form-stack label,
